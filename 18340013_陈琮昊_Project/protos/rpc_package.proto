@@ -1,0 +1,45 @@
+syntax = "proto3";
+
+package rpc_package;
+message Request {
+    string key = 1;
+    string value = 2;
+}
+
+message Response {
+    string message = 1;
+    string value = 2;
+}
+
+message BackUp {
+    repeated string keys = 1;
+    repeated string values = 2;
+}
+
+message TransFrom {
+    int64 start = 1;
+    int64 end = 2;
+    string aim_ip = 3;
+    string aim_port = 4;
+}
+
+service Datastore {
+    rpc put(Request) returns (Response) {}
+    rpc get(Request) returns (Response) {}
+    rpc delete(Request) returns (Response) {}
+    rpc receive(BackUp) returns (Response) {}
+    rpc transform(TransFrom) returns (Response) {}
+}
+
+message SlaveInformation {
+    string ip = 1;
+    string port = 2;
+}
+
+message SlaveCode {
+    string message = 1;
+}
+
+service Slave{
+    rpc add_slave_setting(SlaveInformation) returns (SlaveCode) {}
+}
